@@ -29,8 +29,7 @@ class Chart extends PureComponent {
         temp = parseFloat(observation.physical.feverSeverity, 10);
       }
 
-      const tempRecord = { date: datetime, temperature: temp };
-      temperatures.push(tempRecord);
+      temperatures.push({ date: datetime, temperature: temp });
     });
 
     return (
