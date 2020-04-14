@@ -57,12 +57,7 @@ class Chart extends PureComponent {
 }
 
 Chart.propTypes = {
-  observations: PropTypes.arrayOf(
-    PropTypes.shape({
-      date: PropTypes.string.isRequired,
-      temperature: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  observations: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
 };
 
 const mapStateToProps = state => {
