@@ -1000,6 +1000,53 @@
   dependencies:
     "@libre/atom" "^1.3.2"
 
+"@devexpress/dx-chart-core@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-chart-core/-/dx-chart-core-2.6.1.tgz#696cdb9f5fff94fcb07a668384a0c9546853a311"
+  integrity sha512-DFSaL/m4a5QtImPsexACiYGCYKrZMy83DwyAq7BT+1TEgxpmUe5cAQ0f3yhYtw0UY+oyTs7CHg2Byt/m3dRvtg==
+  dependencies:
+    d3-array "^2.4.0"
+    d3-scale "^3.2.0"
+    d3-shape "^1.3.7"
+
+"@devexpress/dx-core@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-2.6.1.tgz#8e97ca6d69f0eb0ca49711df92f0903c2ef8ad70"
+  integrity sha512-n/qWkbQ0U/6+r/Yq3vOwY+MRLgYil8VPkPBQ7A26c0uPDmZ4fEwuhhN4O9iLqxH8NkfZlUAB2mnbq74hj2liHQ==
+
+"@devexpress/dx-react-chart-material-ui@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-chart-material-ui/-/dx-react-chart-material-ui-2.6.1.tgz#aa64c7ca1fbd21521d67c14004b5e5761aa288ed"
+  integrity sha512-vnlccR47L7v4NdRox54h7j5UpJg77AXXcrGj+HsMDqcdY2Cu4g9bpCrhxG0ig0oB+X4DjhYAG1+cLNbTUf7+Tg==
+  dependencies:
+    clsx "^1.0.4"
+    prop-types "^15.7.2"
+
+"@devexpress/dx-react-chart@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-chart/-/dx-react-chart-2.6.1.tgz#7d3527ae85d7418b4e848baa67b838fecce29e41"
+  integrity sha512-PbsE30jD2sTQX6WvJscEHb13I9/PavcdnNAvtGBSGCDHVfmEezYVnuf0VW00PJccKBR1iVLFsCJbI2vHZEokCA==
+  dependencies:
+    "@devexpress/dx-chart-core" "2.6.1"
+    d3-scale "^3.2.0"
+    d3-shape "^1.3.7"
+
+"@devexpress/dx-react-core@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-2.6.1.tgz#56e5fea339455497854daefc2e6dddf1ca1f91b0"
+  integrity sha512-7xjwTGXPWUzQ2YRz+Is7Sbdrk2HbUgNpdghmiTA4ltPEZZIq41nHq76kAr2l/Vz28Tk5AFQrtHUixEevpsal+w==
+  dependencies:
+    "@devexpress/dx-core" "2.6.1"
+    prop-types "^15.7.2"
+
+"@devexpress/dx-react-grid-material-ui@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-2.6.1.tgz#4b976e51a4ab0aecdd6791a6c90ec9ccec33c362"
+  integrity sha512-gzMLSSLBSYzf6PelxtqvzR/GmgdeM3HsKL8FSMHC2UFnSSzE+UwOUcOfCG3pIXKBaXTSsB/2stzo/o27SK8qEg==
+  dependencies:
+    clsx "^1.0.4"
+    prop-types "^15.7.2"
+
 "@emotion/hash@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
@@ -4393,7 +4440,7 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-"d3-array@1.2.0 - 2":
+"d3-array@1.2.0 - 2", d3-array@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-2.4.0.tgz#87f8b9ad11088769c82b5ea846bcb1cc9393f242"
   integrity sha512-KQ41bAF2BMakf/HdKT865ALd4cgND6VcIztVQZUTt0+BH3RWy6ZYnHghVXf6NFjt2ritLr8H1T8LreAAlfiNcw==

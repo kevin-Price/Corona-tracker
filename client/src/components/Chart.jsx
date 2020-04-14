@@ -1,44 +1,51 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
-import * as chartJs from 'chart.js';
-import PropTypes from 'prop-types';
+import React from 'react';
+import Paper from '@material-ui/core/Paper';
+import { Chart, ArgumentAxis, ValueAxis, LineSeries, Title } from '@devexpress/dx-react-chart-material-ui';
+import { withStyles } from '@material-ui/core/styles';
+import { Animation } from '@devexpress/dx-react-chart';
+import { connect } from 'react-redux';
 
-const Chart = props => {
-  const { chartType, observations } = props;
-  const temperatureData = useSelector(state => state.temperatureReducer.temperature);
-  const [chartConfig, setChartConfig] = useState({
-    type: chartType,
-    data: {
-      labels: temperatureData.labels,
-      datasets: [
-        {
-          label: 'Patient temperature',
-          backgroundColor: '#4760ff',
-          data: temperatureData.values,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              max: 110,
-              min: 80,
-            },
-          },
-        ],
-      },
-    },
-  });
+const format = () => tick => tick;
 
-  const chartContainer = useRef(null);
+const chartStyles = () => ({
+  chart: {
+    paddingRight: '20px',
+  },
+  title: {
+    whiteSpace: 'pre',
+  },
+});
 
-  const updateChartConfig = useCallback(() => {
+const ValueLabel = props => {
+  const { text } = props;
+  return <ValueAxis.Label {...props} text={`${text}`} />;
+};
+
+const titleStyles = {
+  title: {
+    whiteSpace: 'pre',
+  },
+};
+const TitleText = withStyles(titleStyles)(({ classes, ...props }) => (
+  <Title.Text {...props} className={classes.title} />
+));
+
+class TemperatureChart extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      temperatures: [],
+    };
+  }
+
+  render() {
+    const { temperatures: chartData } = this.state;
+    const { classes, observations } = this.props;
+
     const map = new Map();
     observations.map(observation => {
       const date = new Date(observation.date).toISOString().slice(0, 10);
-
       let temp;
       if (
         !observation.physical.feverSeverity ||
@@ -67,38 +74,26 @@ const Chart = props => {
       return true;
     });
 
-    const dates = [];
-    const temps = [];
     map.forEach(entry => {
-      dates.push(entry.date);
-      temps.push(entry.temp);
+      const tempRecord = { date: entry.date, temperature: entry.temp };
+      chartData.push(tempRecord);
     });
 
-    setChartConfig(config => {
-      const newConfig = config;
-      newConfig.data.labels = dates;
-      newConfig.data.datasets[0].data = temps;
-      return newConfig;
-    });
-  }, [observations]);
+    console.log(chartData);
 
-  useEffect(() => {
-    updateChartConfig();
-    // eslint-disable-next-line no-unused-vars
-    const chart = new chartJs.Chart(chartContainer.current, chartConfig);
-  }, [chartContainer, chartConfig, updateChartConfig]);
-
-  return (
-    <div>
-      <canvas id="chart" ref={chartContainer} />
-    </div>
-  );
-};
-
-Chart.propTypes = {
-  chartType: PropTypes.string.isRequired,
-  observations: PropTypes.arrayOf(Object).isRequired,
-};
+    return (
+      <Paper>
+        <Chart data={chartData} className={classes.chart}>
+          <ArgumentAxis tickFormat={format} />
+          <ValueAxis max={50} labelComponent={ValueLabel} />
+          <LineSeries name="Temperature" valueField="temperature" argumentField="date" />
+          <Title text="Patient temperature" textComponent={TitleText} />
+          <Animation />
+        </Chart>
+      </Paper>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
@@ -106,4 +101,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Chart);
+export default connect(mapStateToProps)(withStyles(chartStyles, { name: 'TemperatureChart' })(TemperatureChart));
