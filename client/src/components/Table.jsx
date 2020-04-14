@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import Chart from './Chart';
-import chartType from '../utils/chartType';
 
 const LogTable = props => {
   const { detailData, observations } = props;
@@ -52,7 +51,8 @@ const LogTable = props => {
           ))}
         </Table>
       </TableContainer>
-      <Chart chartType={chartType.bar} />
+      <h2>Chart of Temperature</h2>
+      <Chart />
     </div>
   );
 };

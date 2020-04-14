@@ -1,104 +1,61 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
-import * as chartJs from 'chart.js';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import {
+  ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+} from 'recharts';
+import { connect } from 'react-redux';
 
-const Chart = props => {
-  const { chartType, observations } = props;
-  const temperatureData = useSelector(state => state.temperatureReducer.temperature);
-  const [chartConfig, setChartConfig] = useState({
-    type: chartType,
-    data: {
-      labels: temperatureData.labels,
-      datasets: [
-        {
-          label: 'Patient temperature',
-          backgroundColor: '#4760ff',
-          data: temperatureData.values,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              max: 110,
-              min: 80,
-            },
-          },
-        ],
-      },
-    },
-  });
+class Chart extends PureComponent {
 
-  const chartContainer = useRef(null);
+  constructor(props) {
+    super(props);
 
-  const updateChartConfig = useCallback(() => {
-    const map = new Map();
-    observations.map(observation => {
+    this.state = {
+      temperatures: [],
+    };
+  }
+  render() {
+
+    const { temperatures } = this.state;
+    const { observations } = this.props;
+
+    observations.forEach(observation => {
       const date = new Date(observation.date).toISOString().slice(0, 10);
-
-      let temp;
+      let temp; 
       if (
-        !observation.physical.feverSeverity ||
-        observation.physical.feverSeverity === '' ||
-        !parseInt(observation.physical.feverSeverity, 10) > 0
-      ) {
-        temp = 0;
-      } else {
-        temp = parseInt(observation.physical.feverSeverity, 10);
-      }
+            !observation.physical.feverSeverity ||
+            observation.physical.feverSeverity === '' ||
+            !parseFloat(observation.physical.feverSeverity, 10) > 0
+          ) {
+            temp = 0;
+          } else {
+            temp = parseFloat(observation.physical.feverSeverity, 10);
+          }
 
-      if (map.has(date)) {
-        if (map.get(date).temp !== 0) {
-          map.get(date).temp = (map.get(date).temp + temp) / (map.get(date).numObservations + 1);
-        }
-        map.set(temp, {
-          temp,
-          date,
-        });
-      } else {
-        map.set(date, {
-          temp,
-          date,
-        });
-      }
-      return true;
+  
+      var tempRecord = { date: date, temperature: temp };
+      temperatures.push(tempRecord);
     });
-
-    const dates = [];
-    const temps = [];
-    map.forEach(entry => {
-      dates.push(entry.date);
-      temps.push(entry.temp);
-    });
-
-    setChartConfig(config => {
-      const newConfig = config;
-      newConfig.data.labels = dates;
-      newConfig.data.datasets[0].data = temps;
-      return newConfig;
-    });
-  }, [observations]);
-
-  useEffect(() => {
-    updateChartConfig();
-    // eslint-disable-next-line no-unused-vars
-    const chart = new chartJs.Chart(chartContainer.current, chartConfig);
-  }, [chartContainer, chartConfig, updateChartConfig]);
-
-  return (
-    <div>
-      <canvas id="chart" ref={chartContainer} />
-    </div>
-  );
-};
-
-Chart.propTypes = {
-  chartType: PropTypes.string.isRequired,
-  observations: PropTypes.arrayOf(Object).isRequired,
-};
+    
+    return (
+      <ResponsiveContainer width='100%' aspect={4.0/1.5}>
+      <LineChart
+        data={temperatures}
+        margin={{
+          top: 10, right: 50, left: 20, bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis type="number" domain={[90, 110]}/>
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="temperature" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Tooltip />
+      </LineChart>
+      </ResponsiveContainer>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
