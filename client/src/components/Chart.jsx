@@ -12,11 +12,10 @@ class Chart extends PureComponent {
     };
   }
 
-  render() {
-    const { temperatures } = this.state;
+  componentDidMount() {
     const { observations } = this.props;
 
-    observations.forEach(observation => {
+    const temps = observations.map(observation => {
       const datetime = new Date(observation.date).toISOString().slice(0, 10);
       let temp;
       if (
@@ -29,8 +28,14 @@ class Chart extends PureComponent {
         temp = parseFloat(observation.physical.feverSeverity, 10);
       }
 
-      temperatures.push({ date: datetime, temperature: temp });
+      return { date: datetime, temperature: temp };
     });
+
+    this.setState({ temperatures: temps });
+  }
+
+  render() {
+    const { temperatures } = this.state;
 
     return (
       <ResponsiveContainer width="100%" aspect={4.0 / 1.5}>
