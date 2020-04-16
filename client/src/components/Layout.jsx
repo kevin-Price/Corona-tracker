@@ -28,8 +28,8 @@ const theme = createMuiTheme({
       },
       head: {
         color: '',
-      }
-    }
+      },
+    },
   },
   palette: {
     primary: {

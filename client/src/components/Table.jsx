@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: 'rgba(255, 0, 0, 0.2);',
     color: 'rgba(255, 0, 0, 0.2);',
     fontSize: '16px',
-  }
+  },
 }));
 
 const LogTable = props => {
@@ -38,17 +38,19 @@ const LogTable = props => {
     <div>
       <TableContainer
         classes={{
-          root: classes.margins
+          root: classes.margins,
         }}
       >
         <Table stickyHeader>
           <TableHead
-          classes={{
-            root: classes.stickyHeader
-          }}>
+            classes={{
+              root: classes.stickyHeader,
+            }}
+          >
             <TableRow>
               {questions.map(question => (
-                <TableCell key={question}>{question}</TableCell>))}
+                <TableCell key={question}>{question}</TableCell>
+              ))}
             </TableRow>
           </TableHead>
           {observations.map(observation => (
