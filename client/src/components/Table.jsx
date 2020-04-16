@@ -3,10 +3,23 @@ import '../css/Table.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Chart from './Chart';
 
+const useStyles = makeStyles(() => ({
+  margins: {
+    marginTop: '1rem',
+    marginBottom: '2rem',
+  },
+  stickyHeader: {
+    backgroundColor: 'rgba(255, 0, 0, 0.2);',
+    color: 'rgba(255, 0, 0, 0.2);',
+    fontSize: '16px',
+  }
+}));
+
 const LogTable = props => {
-  const { detailData, observations } = props;
+  const { observations } = props;
   const questions = [
     'Date',
     'Overall Feeling',
@@ -20,19 +33,25 @@ const LogTable = props => {
     'Bluishness',
     'Comments',
   ];
-
+  const classes = useStyles();
   return (
     <div>
-      <TableContainer>
-        <Table className="table">
-          <TableHead className="table-head">
+      <TableContainer
+        classes={{
+          root: classes.margins
+        }}
+      >
+        <Table stickyHeader>
+          <TableHead
+          classes={{
+            root: classes.stickyHeader
+          }}>
             <TableRow>
               {questions.map(question => (
-                <TableCell key={question}>{question}</TableCell>
-              ))}
+                <TableCell key={question}>{question}</TableCell>))}
             </TableRow>
           </TableHead>
-          {(detailData.length ? detailData : observations).map(observation => (
+          {observations.map(observation => (
             <TableBody key={observation.date}>
               <TableRow>
                 <TableCell>{new Date(observation.date).toLocaleDateString()}</TableCell>
@@ -51,20 +70,18 @@ const LogTable = props => {
           ))}
         </Table>
       </TableContainer>
-      <h2>Chart of Temperature</h2>
+      <h2>Temperature Chart</h2>
       <Chart />
     </div>
   );
 };
 
 LogTable.propTypes = {
-  detailData: PropTypes.arrayOf(Object).isRequired,
   observations: PropTypes.arrayOf(Object).isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    detailData: state.healthToggleReducer.detailData,
     observations: state.observationsReducer.observations,
   };
 };

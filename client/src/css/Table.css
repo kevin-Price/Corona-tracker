@@ -23,7 +23,7 @@
 .table-head th {
   border-bottom: 3px solid #b8b8b8 !important;
   border-top: 0px;
-  color: #f64141;
+  color: black;
 }
 /* over ride the border styling of bootstrap */
 .table-body {

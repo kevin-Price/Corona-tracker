@@ -22,6 +22,14 @@ const theme = createMuiTheme({
         fontSize: 'inherit',
       },
     },
+    MuiTableCell: {
+      stickyHeader: {
+        backgroundColor: '',
+      },
+      head: {
+        color: '',
+      }
+    }
   },
   palette: {
     primary: {
